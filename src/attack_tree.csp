@@ -1,0 +1,32 @@
+channel action_Using_passive_monitoring
+channel action_Run_through_0B_00_to_FF_FF__non_standard_
+channel action_Connect_to_serial_port
+channel action_Run_through_00_00_to_0A_FF__standard_
+channel action_Find_the_link_key_from_local_or_remote_device
+channel action_Change_address_of_local_device
+channel action_Using_OEM_CAN_database
+channel action_Send__flood_with__CAN_messages
+channel action_Flood_with_set_UDS_messages
+channel action_Using_reverse_engineering
+channel action_Determine_pairing_status
+Attacker = Vehicle_Compromise
+Vehicle_Compromise = Connect_to_device ; Cause_Vehicle_Compromise
+Connect_to_device = Using_legitimate_device [] Spoof_previously_paired_device
+Spoof_previously_paired_device = Find_the_link_key_from_local_or_remote_device ||| Change_address_of_local_device
+Change_address_of_local_device = action_Change_address_of_local_device -> SKIP
+Find_the_link_key_from_local_or_remote_device = action_Find_the_link_key_from_local_or_remote_device -> SKIP
+Using_legitimate_device = Determine_pairing_status ; Connect_to_serial_port
+Determine_pairing_status = action_Determine_pairing_status -> SKIP
+Connect_to_serial_port = action_Connect_to_serial_port -> SKIP
+Cause_Vehicle_Compromise = Using_UDS_messages [] Run_through_all_messages [] Flooding_with_raw_CAN_messages
+Flooding_with_raw_CAN_messages = Predetermine_CAN_messages ; Send__flood_with__CAN_messages
+Predetermine_CAN_messages = Using_passive_monitoring [] Using_OEM_CAN_database [] Using_reverse_engineering
+Using_OEM_CAN_database = action_Using_OEM_CAN_database -> SKIP
+Using_passive_monitoring = action_Using_passive_monitoring -> SKIP
+Using_reverse_engineering = action_Using_reverse_engineering -> SKIP
+Send__flood_with__CAN_messages = action_Send__flood_with__CAN_messages -> SKIP
+Run_through_all_messages = Run_through_00_00_to_0A_FF__standard_ ; Run_through_0B_00_to_FF_FF__non_standard_
+Run_through_00_00_to_0A_FF__standard_ = action_Run_through_00_00_to_0A_FF__standard_ -> SKIP
+Run_through_0B_00_to_FF_FF__non_standard_ = action_Run_through_0B_00_to_FF_FF__non_standard_ -> SKIP
+Using_UDS_messages = Flood_with_set_UDS_messages
+Flood_with_set_UDS_messages = action_Flood_with_set_UDS_messages -> SKIP

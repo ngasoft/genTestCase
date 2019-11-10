@@ -1,0 +1,104 @@
+<?xml version='1.0'?>
+<sandtree>
+	<node refinement="sequential">
+		<label>Vehicle
+Compromise</label>
+		<node refinement="disjunctive">
+			<label>Connect to
+device</label>
+			<node refinement="sequential">
+				<label>Using
+legitimate
+device</label>
+				<node refinement="conjunctive">
+					<label>Determine
+pairing
+status</label>
+					<comment>determine_pairing_status</comment>
+				</node>
+				<node refinement="conjunctive">
+					<label>Connect to
+serial port</label>
+					<comment>connect_to_serial_port</comment>
+				</node>
+			</node>
+			<node refinement="conjunctive">
+				<label>Spoof previously
+paired device</label>
+				<node refinement="conjunctive">
+					<label>Find
+the link key
+from local or
+remote device</label>
+				</node>
+				<node refinement="conjunctive">
+					<label>Change
+address of
+local device</label>
+				</node>
+			</node>
+		</node>
+		<node refinement="disjunctive">
+			<label>Cause
+Vehicle
+Compromise</label>
+			<node refinement="sequential">
+				<label>Using UDS
+messages</label>
+			</node>
+			<node refinement="sequential">
+				<label>Flood with
+set UDS
+messages</label>
+				<comment>udsflood</comment>
+			</node>
+			<node refinement="sequential">
+				<label>Run through
+all messages</label>
+				<node refinement="disjunctive">
+					<label>Run through
+00 00 to 0A FF
+[standard]</label>
+					<comment>standardobd</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Run through
+0B 00 to FF FF
+[non-standard]</label>
+					<comment>nonstandardobd</comment>
+				</node>
+			</node>
+			<node refinement="sequential">
+				<label>Flooding with
+raw CAN
+messages</label>
+				<node refinement="disjunctive">
+					<label>Predetermine
+CAN messages</label>
+					<node refinement="disjunctive">
+						<label>Using
+passive
+monitoring</label>
+						<comment>monitoring</comment>
+					</node>
+					<node refinement="disjunctive">
+						<label>Using
+OEM CAN
+database</label>
+					</node>
+					<node refinement="disjunctive">
+						<label>Using
+reverse
+engineering</label>
+					</node>
+				</node>
+				<node refinement="disjunctive">
+					<label>Send
+[flood with]
+CAN messages</label>
+					<comment>canmsg</comment>
+				</node>
+			</node>
+		</node>
+	</node>
+</sandtree>

@@ -1,0 +1,216 @@
+<?xml version='1.0'?>
+<sandtree>
+	<node refinement="sequential">
+		<label>Vehicle
+Compromise</label>
+		<node refinement="conjunctive">
+			<label>Reconnaissance</label>
+			<node refinement="conjunctive">
+				<label>OBD-II
+Device
+Information</label>
+				<node refinement="disjunctive">
+					<label>Determine
+Bluetooth
+address</label>
+					<node refinement="conjunctive">
+						<label>Scan for
+devices
+using hcitool</label>
+					</node>
+					<node refinement="conjunctive">
+						<label>Read
+label</label>
+					</node>
+					<node refinement="disjunctive">
+						<label>Use
+bluetoothctl</label>
+					</node>
+				</node>
+				<node refinement="disjunctive">
+					<label>Determine
+ELM327
+version</label>
+					<node refinement="conjunctive">
+						<label>Use AT
+commands
+[ATI]</label>
+					</node>
+					<node refinement="conjunctive">
+						<label>Read
+manual</label>
+					</node>
+				</node>
+				<node refinement="disjunctive">
+					<label>Determine
+serial port
+channel</label>
+					<node refinement="conjunctive">
+						<label>Use Service
+Discovery
+Protocol</label>
+					</node>
+					<node refinement="conjunctive">
+						<label>Trial and error
+connections
+to open ports</label>
+					</node>
+				</node>
+				<node refinement="conjunctive">
+					<label>Determine
+baudrate</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Determine
+pairing
+mechanism</label>
+					<node refinement="conjunctive">
+						<label>View
+device
+information
+[hcitool info]</label>
+					</node>
+					<node refinement="conjunctive">
+						<label>Read
+manual</label>
+					</node>
+					<node refinement="disjunctive">
+						<label>Use
+bluetoothctl</label>
+					</node>
+				</node>
+			</node>
+			<node refinement="disjunctive">
+				<label>Vehicle
+information</label>
+				<node refinement="conjunctive">
+					<label>VIN
+number</label>
+				</node>
+				<node refinement="conjunctive">
+					<label>Read
+Voltage</label>
+				</node>
+				<node refinement="conjunctive">
+					<label>Determine
+current
+protocol</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Determine
+CAN status</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Read
+stored
+data</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Read
+IgnMon
+input level</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Display
+keywords</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Display
+program
+parameters
+summary</label>
+				</node>
+			</node>
+		</node>
+		<node refinement="disjunctive">
+			<label>Connect to
+device</label>
+			<node refinement="sequential">
+				<label>Using
+legitimate
+device</label>
+				<node refinement="conjunctive">
+					<label>Determine
+pairing
+status</label>
+				</node>
+				<node refinement="conjunctive">
+					<label>Connect to
+serial port</label>
+				</node>
+			</node>
+			<node refinement="conjunctive">
+				<label>Spoof previously
+paired device</label>
+				<node refinement="conjunctive">
+					<label>Find
+the link key
+from local or
+remote device</label>
+				</node>
+				<node refinement="conjunctive">
+					<label>Change
+address of
+local device</label>
+				</node>
+			</node>
+		</node>
+		<node refinement="disjunctive">
+			<label>Cause
+Vehicle
+Compromise</label>
+			<node refinement="sequential">
+				<label>Using UDS
+messages</label>
+			</node>
+			<node refinement="sequential">
+				<label>Flood with
+set UDS
+messages</label>
+			</node>
+			<node refinement="sequential">
+				<label>Run through
+all messages</label>
+				<node refinement="disjunctive">
+					<label>Run through
+00 00 to 0A FF
+[standard]</label>
+				</node>
+				<node refinement="disjunctive">
+					<label>Run through
+0B 00 to FF FF
+[non-standard]</label>
+				</node>
+			</node>
+			<node refinement="sequential">
+				<label>Flooding with
+raw CAN
+messages</label>
+				<node refinement="disjunctive">
+					<label>Predetermine
+CAN messages</label>
+					<node refinement="disjunctive">
+						<label>Using
+passive
+monitoring</label>
+					</node>
+					<node refinement="disjunctive">
+						<label>Using
+OEM CAN
+database</label>
+					</node>
+					<node refinement="disjunctive">
+						<label>Using
+reverse
+engineering</label>
+					</node>
+				</node>
+				<node refinement="disjunctive">
+					<label>Send
+[flood with]
+CAN messages</label>
+				</node>
+			</node>
+		</node>
+	</node>
+</sandtree>
