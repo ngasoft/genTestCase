@@ -1,2 +1,0 @@
-- Script to convert attack trees into test purposes in CSP.
-- Todo: Script to convert CSP counter example traces into Python script.
