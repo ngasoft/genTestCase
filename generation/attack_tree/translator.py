@@ -8,6 +8,7 @@ class AttackTreeTranslator:
         self.script = list()
         self.used_names = set()
         self.used_events = dict()
+        self.action_dict = dict()
 
     def get_events(self):
         return self.used_events.values()
@@ -17,6 +18,8 @@ class AttackTreeTranslator:
             event = self.gen_csp_event_name(tree.label)
             process = self.gen_csp_process_name(tree.label)
             self.script.append(process + " = " + event + " -> SKIP")
+            if tree.test_script is not None:
+                self.action_dict[event] = tree.test_script
             return process
         elif isinstance(tree, OrNode):
             sub_processes = list()

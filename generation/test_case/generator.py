@@ -2,7 +2,14 @@ import sys
 from generation.test_case.templates import CSPTemplate
 from string import Template
 
-sys.path.append("/Applications/FDR4.app/Contents/Frameworks")
+fdr_path = None # this is the path to the file fdr.py in the installation of FDR
+# for MacOS uncomment the following line
+fdr_path = "/Applications/FDR4.app/Contents/Frameworks"
+# for linux uncomment the following line
+#fdr_path = path_to_fdr_folder + "/lib"
+
+sys.path.append(fdr_path)
+
 import fdr
 fdr.library_init()
 
@@ -14,6 +21,7 @@ class Generator:
         base_name = csp_file_name
         self.attack_tree_csp_file_name = base_name
         self.test_cases_csp_file_name = base_name + ".test_cases.csp"
+        self.test_cases_py_file_name = base_name + ".test_cases.py"
         self.main_csp_file_name = base_name + ".main.csp"
 
     def init_main_csp(self):
@@ -23,6 +31,21 @@ class Generator:
         f = open(self.main_csp_file_name, 'w')
         f.write(csp_script)
         f.close()
+
+    def gen_test_case_python_script(self, counter_examples, action_dict):
+        script = "TC_COUNT = " + str(len(counter_examples)) + "\n"
+        n = 1
+        for attack in counter_examples:
+            action_list = ["perform(\"" + action + "\"," + (action_dict[action] if action in action_dict else "None") + ")" for action in attack[:-1]]
+            script += "TC_" + str(n) + " = [" + ", ".join(action_list) + " ] \n"
+            n += 1
+        test_cases = ["TC_" + str(i + 1) for i in range(n - 1)]
+        script += "Test_Cases = [" + ", ".join(test_cases) + "]"
+
+        f = open(self.test_cases_py_file_name, 'w')
+        f.write(script)
+        f.close()
+        return self.test_cases_py_file_name
 
     def generate_test_case(self):
         # call FDR
@@ -65,24 +88,6 @@ class Generator:
             n += 1
         script.append("Test_Cases = [] i : {1.." + str(len(counter_examples)) + "} @ TC(i)")
         return "\n".join(script)
-
-    def gen_test_cases_py_script(self, counter_examples):
-        script = self.counter_examples_to_py(counter_examples)
-        py_file = open('test_cases.py', 'w')
-        py_file.write(script)
-        py_file.close()
-
-
-    def counter_examples_to_py(self, counter_examples):
-        script = "TC_COUNT = " + str(len(counter_examples)) + "\n"
-        n = 1
-        for ce in counter_examples:
-            ce_str = ['"' + e + '"' for e in ce[:-1]]
-            script += "TC_" + str(n) + " = [" + ", ".join(ce_str) + " ] \n"
-            n += 1
-        TCs = ["TC_" + str(i + 1) for i in range(n - 1)]
-        script += "Test_Cases = [" + ", ".join(TCs) + "]"
-        return script
 
     def call_fdr(self):
         sys.path.append(self.path_to_fdr)
