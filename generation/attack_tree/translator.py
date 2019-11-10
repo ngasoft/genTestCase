@@ -50,7 +50,7 @@ class AttackTreeTranslator:
         csp.append("Attacker = " + main_process)
         csp_script = "\n".join(csp)
 
-        csp_file_name = tree.source.split(os.path.sep)[-1] + ".csp"
+        csp_file_name = tree.source.split(os.path.sep)[-1][:-4] + ".csp"
         f = open(csp_file_name, 'w')
         f.write(csp_script)
         f.close()

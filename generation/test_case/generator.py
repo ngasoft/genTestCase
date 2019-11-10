@@ -1,28 +1,20 @@
-import sys
 from generation.test_case.templates import CSPTemplate
 from string import Template
-
-fdr_path = None # this is the path to the file fdr.py in the installation of FDR
-# for MacOS uncomment the following line
-fdr_path = "/Applications/FDR4.app/Contents/Frameworks"
-# for linux uncomment the following line
-#fdr_path = path_to_fdr_folder + "/lib"
-
-sys.path.append(fdr_path)
-
-import fdr
-fdr.library_init()
-
+import sys
 
 class Generator:
     def __init__(self, path_to_fdr, csp_file_name):
-        self.path_to_fdr = path_to_fdr
+        global fdr_module
+        sys.path.append(path_to_fdr)
+        self.fdr_module = __import__('fdr')
+        self.fdr_module.library_init()
+
         self.csp_file_name = csp_file_name
-        base_name = csp_file_name
-        self.attack_tree_csp_file_name = base_name
-        self.test_cases_csp_file_name = base_name + ".test_cases.csp"
-        self.test_cases_py_file_name = base_name + ".test_cases.py"
-        self.main_csp_file_name = base_name + ".main.csp"
+        base_name = csp_file_name[:-4]
+        self.attack_tree_csp_file_name = csp_file_name
+        self.test_cases_csp_file_name = base_name + "_test_cases.csp"
+        self.test_cases_py_file_name = base_name + "_test_cases.py"
+        self.main_csp_file_name = base_name + "_main.csp"
 
     def init_main_csp(self):
         csp_template = Template(CSPTemplate.main_csp)
@@ -36,7 +28,7 @@ class Generator:
         script = "TC_COUNT = " + str(len(counter_examples)) + "\n"
         n = 1
         for attack in counter_examples:
-            action_list = ["perform(\"" + action + "\"," + (action_dict[action] if action in action_dict else "None") + ")" for action in attack[:-1]]
+            action_list = ["(\"" + action + "\"," + ("\"" + action_dict[action] + "\"" if action in action_dict else "None") + ")" for action in attack[:-1]]
             script += "TC_" + str(n) + " = [" + ", ".join(action_list) + " ] \n"
             n += 1
         test_cases = ["TC_" + str(i + 1) for i in range(n - 1)]
@@ -90,8 +82,7 @@ class Generator:
         return "\n".join(script)
 
     def call_fdr(self):
-        sys.path.append(self.path_to_fdr)
-        session = fdr.Session()
+        session = self.fdr_module.Session()
 
         try:
             session.load_file(self.main_csp_file_name)
