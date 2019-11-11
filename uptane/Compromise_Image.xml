@@ -1,0 +1,106 @@
+<?xml version='1.0'?>
+<sandtree>
+	<node refinement="disjunctive">
+		<label>Compromise Image</label>
+		<node refinement="disjunctive">
+			<label>Comp.
+Image Repo</label>
+			<node refinement="sequential">
+				<label>Add New
+Image</label>
+				<node refinement="disjunctive">
+					<label>Create
+Image
+File</label>
+					<comment>create_image</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Add to
+Image
+Repo</label>
+					<comment>add_image_to_imagerepo</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Sign
+Image</label>
+					<comment>sign_image</comment>
+				</node>
+			</node>
+			<node refinement="sequential">
+				<label>Modify
+Existing
+Image</label>
+				<node refinement="disjunctive">
+					<label>Make
+Changes
+to Image</label>
+					<comment>modify_image</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Add
+Image to
+Repo</label>
+					<comment>add_image_to_imagerepo</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Sign
+Image</label>
+					<comment>sign_image</comment>
+				</node>
+			</node>
+		</node>
+		<node refinement="disjunctive">
+			<label>Comp.
+Director Repo</label>
+			<node refinement="sequential">
+				<label>Add New
+Image</label>
+				<node refinement="disjunctive">
+					<label>Create
+Image
+File</label>
+					<comment>create_image</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Add
+File
+to Dir.Repo</label>
+					<comment>add_image_to_director</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Sign Image</label>
+					<comment>sign_image_dir</comment>
+				</node>
+			</node>
+			<node refinement="sequential">
+				<label>Modify
+Existing
+Image</label>
+				<node refinement="disjunctive">
+					<label>Make
+Changes
+to
+File</label>
+					<comment>modify_image</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Add File
+to Dir. Repo</label>
+					<comment>add_image_to_director</comment>
+				</node>
+				<node refinement="disjunctive">
+					<label>Sign
+File</label>
+					<comment>sign_image_dir</comment>
+				</node>
+			</node>
+		</node>
+		<node refinement="sequential">
+			<label>Replay</label>
+			<node refinement="disjunctive">
+				<label>Update
+Meta Data</label>
+			</node>
+		</node>
+	</node>
+</sandtree>
